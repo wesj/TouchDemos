@@ -1,0 +1,171 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+        <link href="styles/actionbar.css" rel="stylesheet" type="text/css">
+        <link href="styles/slider.css" rel="stylesheet" type="text/css">
+        <link href="styles/modal.css" rel="stylesheet" type="text/css">
+        <link href="styles/painting.css" rel="stylesheet" type="text/css">
+        <link href="styles/panel.css" rel="stylesheet" type="text/css">
+
+        <script src="scripts/x-tag.js" type="text/javascript"></script>
+        <script src="scripts/actionbar.js" type="text/javascript"></script>
+        <script src="scripts/slider.js" type="text/javascript"></script>
+        <script src="scripts/modal.js" type="text/javascript"></script>
+        <script src="scripts/painting.js" type="text/javascript"></script>
+        <script src="scripts/panel.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+var xhr = null;
+function handleCommand(event) {
+    switch (event.command) {
+        case "showColorPicker":
+            document.getElementById("colorPickerDialog").xtag.toggle();
+            break;
+        case "insertClipart":
+            document.getElementById("clipartDialog").xtag.toggle();
+            break;
+        case "save":
+            break;
+    }
+}
+
+var hueslider = null;
+var satslider = null;
+var lightslider = null;
+var widthslider = null;
+var painting = null;
+function init() {
+    document.addEventListener("command", handleCommand, false);
+
+    hueslider = document.getElementById("hueslider");
+    hueslider.addEventListener("change", changeColor, false);
+
+    satslider = document.getElementById("satslider");
+    satslider.addEventListener("change", changeColor, false);
+    satslider.value = 100;
+
+    lightslider = document.getElementById("lightslider");
+    lightslider.addEventListener("change", changeColor, false);
+    lightslider.value = 50;
+
+    widthslider = document.getElementById("widthslider");
+    widthslider.addEventListener("change", changeWidth, false);
+    widthslider.value = 10;
+
+    painting = document.getElementById("painting");
+}
+window.addEventListener("load", init, false);
+
+function changeColor(event) {
+    var color = "hsl(" + hueslider.value + "," + satslider.value + "%," + lightslider.value + "%)";
+    hueslider.knob.style.backgroundColor = color;
+
+    satslider.knob.style.backgroundColor = color;
+    satslider.range.style.backgroundImage = xtag.prefix.css + "linear-gradient(left, hsl(" + hueslider.value + ",   0%, " + lightslider.value + "%)," +
+                                                                       "hsl(" + hueslider.value + ", 100%, " + lightslider.value + "%))"
+
+    lightslider.knob.style.backgroundColor = color;
+    lightslider.range.style.backgroundImage = xtag.prefix.css + "gradient(left, hsl(" + hueslider.value + ", " + satslider.value + "%, 0%)," +
+                                                                         "hsl(" + hueslider.value + ", " + satslider.value + "%, 100%))";
+
+    painting.color = color;
+}
+
+var offset = 5;
+function changeWidth() {
+    widthslider.knob.style.width  = widthslider.value + offset;
+    widthslider.knob.style.height = widthslider.value + offset;
+    widthslider.knob.style.marginTop = '-' + (widthslider.value +offset)/2;
+
+    painting.radius = widthslider.value + offset;
+}
+
+function addClipart(event) {
+    if (event.target.nodeName != "IMG")
+        return;
+    painting.xtag.addImage(event.target.cloneNode(false));
+    document.getElementById("clipartDialog").xtag.hide();
+}
+
+function openFile(aFiles) {
+    var img = document.createElement("img");
+    img.className = "acquired";
+    img.onload = function() {
+        painting.xtag.addImage(img);
+    };
+    var reader = new FileReader();
+    reader.onload = function(aEvent) {
+        img.src = aEvent.target.result;
+    };
+    reader.readAsDataURL(aFiles[0]);
+    document.getElementById("clipartDialog").xtag.hide();
+}
+        </script>
+        <style type="text/css">
+html, body {
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+x-actionbar {
+    background-image: -moz-linear-gradient(#DDD, #666);
+}
+#hueslider > div.x-slider-container > div.x-slider-range {
+    background-image: linear-gradient(left, hsl(0,100%, 50%), hsl(60,100%, 50%), hsl(120,100%, 50%), hsl(180,100%, 50%), hsl(240,100%, 50%), hsl(300,100%, 50%), hsl(360,100%, 50%));
+    background-image: -moz-linear-gradient(left, hsl(0,100%, 50%), hsl(60,100%, 50%), hsl(120,100%, 50%), hsl(180,100%, 50%), hsl(240,100%, 50%), hsl(300,100%, 50%), hsl(360,100%, 50%));
+    background-image: -o-linear-gradient(left, hsl(0,100%, 50%), hsl(60,100%, 50%), hsl(120,100%, 50%), hsl(180,100%, 50%), hsl(240,100%, 50%), hsl(300,100%, 50%), hsl(360,100%, 50%));
+    background-image: -ie-linear-gradient(left, hsl(0,100%, 50%), hsl(60,100%, 50%), hsl(120,100%, 50%), hsl(180,100%, 50%), hsl(240,100%, 50%), hsl(300,100%, 50%), hsl(360,100%, 50%));
+    background-image: -webkit-linear-gradient(left, hsl(0,100%, 50%), hsl(60,100%, 50%), hsl(120,100%, 50%), hsl(180,100%, 50%), hsl(240,100%, 50%), hsl(300,100%, 50%), hsl(360,100%, 50%));
+}
+#satslider > div.x-slider-container > div.x-slider-range {
+    background-image: linear-gradient(left, hsla(0,   0%, 0%, 1), hsla(0, 100%, 0%, 1));
+    background-image: -o-linear-gradient(left, hsla(0,   0%, 0%, 1), hsla(0, 100%, 0%, 1));
+    background-image: -ie-linear-gradient(left, hsla(0,   0%, 0%, 1), hsla(0, 100%, 0%, 1));
+    background-image: -moz-linear-gradient(left, hsla(0,   0%, 0%, 1), hsla(0, 100%, 0%, 1));
+    background-image: -webkit-linear-gradient(left, hsla(0,   0%, 0%, 1), hsla(0, 100%, 0%, 1));
+}
+#lightslider > div.x-slider-container > div.x-slider-range {
+    background-image: linear-gradient(left, hsla(0, 0%,   0%, 1), hsla(0, 0%, 100%, 1));
+    background-image: -o-linear-gradient(left, hsla(0, 0%,   0%, 1), hsla(0, 0%, 100%, 1));
+    background-image: -ie-linear-gradient(left, hsla(0, 0%,   0%, 1), hsla(0, 0%, 100%, 1));
+    background-image: -moz-linear-gradient(left, hsla(0, 0%,   0%, 1), hsla(0, 0%, 100%, 1));
+    background-image: -webkit-linear-gradient(left, hsla(0, 0%,   0%, 1), hsla(0, 0%, 100%, 1));
+}
+#clipartDialog { width: 405px; }
+#clipartDialog img { width: 100px; height: 100px; padding: 10px; }
+        </style>
+    </head>
+    <body>
+        <x-actionbar data-action-style="icon">
+            <x-action id="colorPickerButton" command="showColorPicker" label="Color" src="imgs/color.png"></x-action>
+            <x-action id="clipartButton" command="insertClipart" label="Clipart" src="imgs/clipart.png"></x-action>
+            <!--
+            Can't save yet
+            <x-spacer></x-spacer>
+            <x-action id="saveButton" command="save" label="Save" src="imgs/save.png"></x-action>
+            -->
+        </x-actionbar>
+
+        <x-modal id="colorPickerDialog" anchor="colorPickerButton">
+            <x-slider id="hueslider" data-min="0" data-max="360" data-label="Hue"></x-slider>
+            <x-slider id="satslider" data-min="0" data-max="100" data-label="Saturation"></x-slider>
+            <x-slider id="lightslider" data-min="0" data-max="100" data-label="Lightness"></x-slider>
+            <x-slider id="widthslider" data-min="0" data-max="50" data-label="Width" data-step="1"></x-slider>
+        </x-modal>
+
+        <x-modal id="clipartDialog" anchor="clipartButton">
+            Clipart <input type="file" onchange="openFile(this.files);" placeholder="Use a picture"></input>
+            <x-panel onclick="addClipart(event)">
+                <img class="clipart" src="imgs/star.svg">
+                <img class="clipart" src="imgs/burst.svg">
+                <img class="clipart" src="imgs/sphere.svg">
+                <img class="clipart" src="imgs/heart.svg">
+                <img class="clipart" src="imgs/triangle.svg">
+            </x-panel>
+        </x-modal>
+
+        <!-- remove this for demo? -->
+        <x-painting id="painting"></x-painting>
+    </body>
+</html>

@@ -1,0 +1,32 @@
+x-painting {
+	position: relative;
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.x-painting-canvas {
+	width: 100%;
+	height: 100%;
+	z-index: 2;
+}
+
+x-painting > * {
+	position: absolute;
+	top: 0px;
+	left: 0px;
+}
+
+x-painting > img.clipart {
+	width: 100px;
+	height: 100px;
+	z-index: 3;
+	top: 0px;
+	left: 0px;
+}
+
+x-painting > img.acquired {
+	max-width: 100%;
+	max-height: 100%;
+	z-index: 1;
+}

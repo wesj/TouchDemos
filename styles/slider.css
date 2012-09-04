@@ -1,0 +1,46 @@
+x-slider {
+	display: block;
+	min-width: 250px;
+}
+x-slider label {
+	
+}
+
+x-slider div.x-slider-container {
+	width: 100%;
+	padding: 10px 0px;
+}
+x-slider div.x-slider-range {
+	width: 100%;
+	border: solid 1px #ddd;
+
+	max-height: 5px;
+}
+x-slider div.x-slider-knob {
+	width: 20px;
+	border: solid 1px #222;
+	border-radius: 100%;
+	background-color: #222;
+	cursor: pointer;
+	position: relative;
+
+	height: 20px;
+	margin: -9px;
+
+	transform: translate(-50%);
+	-o-transform: translate(-50%);
+	-moz-transform: translate(-50%);
+	-ms-transform: translate(-50%);
+	-webkit-transform: translate(-50%);
+}
+body.x-tag-slider-drag{
+	user-select: none;
+	-o-user-select: none;
+	-ms-user-select: none;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	cursor: ew-resize;
+}
+body.x-tag-slider-drag div.x-slider-knob {
+	cursor: ew-resize;
+}
