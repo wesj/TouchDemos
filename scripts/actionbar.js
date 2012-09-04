@@ -53,7 +53,6 @@
 	
 	
 	var onCommand = function(e){
-		console.log("3: " + e.type);
 		xtag.fireEvent(this, 'command', { command: this.getAttribute('command') });
 	}
 

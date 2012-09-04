@@ -175,7 +175,6 @@
       },
       touch: {
         onAdd: function(pseudo, fn){
-          console.log("add: " + touchMap[pseudo.key.split(':')[0]] + " on ");
           this.addEventListener(touchMap[pseudo.key.split(':')[0]], fn, false);
         },
         listener: function(pseudo, fn, args){
@@ -188,7 +187,6 @@
           }
         }, 
         onRemove: function(pseudo, fn){
-          console.log("remove: " + touchMap[pseudo.key.split(':')[0]] + " on ");
           this.removeEventListener(touchMap[pseudo.key.split(':')[0]], fn);
         }
       },
@@ -631,7 +629,6 @@
       var eventKey = type.split(':')[0],
         eventMap = (xtag.eventMap || {})[eventKey] || [eventKey];   
       eventMap.forEach(function(name){
-        console.log("remove: " + name + " on " + element);
         element.removeEventListener(name, fn);
       });
     },

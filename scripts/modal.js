@@ -7,7 +7,6 @@
 		gingerbread = /Android 2\.3.+AppleWebKit/.test(navigator.userAgent);
 
 	var modalTouch = function(event) {
-		console.log("1 : " + event.type);
 		if (!currentDialog) return;
 
 		var t = event.target;

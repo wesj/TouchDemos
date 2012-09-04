@@ -1,0 +1,21 @@
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <head>
+    <link href="styles/fastbutton.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="scripts/x-tag.js"></script>
+    <script type="text/javascript" src="scripts/fastbutton.js"></script>
+    <script type="text/javascript">
+function handleComment(event) {
+  switch (event.command) {
+      case "fast-button":
+          alert("Fast click!");
+          break;
+  }
+}
+    </script>
+  </head>
+  <body>
+    <button label="Normal Button" onclick="alert('Normal');"></button>
+    <x-fastbutton label="Button 1" command="fast-button'></x-fastbutton>
+  </body>
+</html>
