@@ -1,0 +1,103 @@
+<html>
+<head>
+<style>
+html, body {
+    padding: 0px;
+    margin: auto;
+    margin-top: 50%;
+    margin-bottom: 50%;
+    text-align: center;
+}
+</style>
+<script>
+var img;
+function start() {
+    document.removeEventListener("DOMContentLoaded", start, false);
+    img = document.getElementsByTagName("img")[0];
+    img.addEventListener("touchstart", startTouch, false);
+    img.scale = 1;
+    img.rotation = 0;
+}
+
+var startPoints = null;
+function startTouch(event) {
+    if (event.touches.length == 1)
+        document.addEventListener('touchstart', startTouch, false);
+
+    if (event.touches.length != 2)
+        return;
+
+    event.preventDefault();
+    startPoints = getTouchArray(event);
+    document.addEventListener('touchmove', moveTouches, false);
+    document.addEventListener('touchend', endTouches, false);
+}
+
+function getTouchArray(event) {
+    var array = [];
+    for (var i = 0; i < event.touches.length; i++)
+        array[i] = { x: event.touches[i].clientX, y: event.touches[i].clientY };
+    return array;
+}
+
+function getDistance(array) {
+    if (array.length != 2)
+        return 0;
+    var dx = array[0].x - array[1].x;
+    var dy = array[0].y - array[1].y;
+    return dx*dx + dy*dy;
+}
+
+function moveTouches(event) {
+    if (!startPoints || event.touches.length != 2)
+        return;
+
+    event.preventDefault();
+    var a = getTouchArray(event);
+
+    var ds = getDistance(a)/getDistance(startPoints);
+    ds *= Number(img.scale);
+    var dx = getCenter(startPoints).subtract(getCenter(a));
+    var rot = getRotation(a) - getRotation(startPoints) + Number(img.rotation);
+
+    img.style.transform = "rotate(" + rot + "rad)translate(" + dx[0] + "px," + dx[1] + "px) scale(" + Math.round(ds*100)/100 + ")";
+}
+
+function getRotation(a) {
+    return Math.atan((a[1].y - a[0].y) / (a[1].x - a[0].x) );
+}
+
+function getCenter(p) {
+    return {
+        subtract: function(aPoint) {
+            return [aPoint.x - this.x,
+                    aPoint.y - this.y];
+        },
+        x: (p[0].x + p[1].x)/2,
+        y: (p[0].y + p[1].y)/2,
+    }
+}
+
+function endTouches(event) {
+    if (event.touches.length != 1)
+        return;
+
+    var a = getTouchArray(event);
+    a[1] = {x: event.changedTouches[0].clientX, y: event.changedTouches[0].clientY};
+    var ds = getDistance(a)/getDistance(startPoints);
+    img.scale = Number(img.scale)*ds;
+    img.rotation = getRotation(a) - getRotation(startPoints) + Number(img.rotation);
+
+    startPoints = null;
+    document.removeEventListener('touchmove', moveTouches, false);
+    document.removeEventListener('touchend', endTouches, false);
+    document.removeEventListener('touchstart', startTouch, false);
+}
+
+document.addEventListener("DOMContentLoaded", start, false);
+</script>
+</head>
+<body>
+    <img src="mrt.jpg"></img>
+</body>
+</html>
