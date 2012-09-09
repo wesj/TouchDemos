@@ -21,12 +21,12 @@
 
     xtag.register('x-painting', {
         onCreate: function(){
-                    this.innerHTML = '<canvas class="x-painting-canvas"></canvas>';
-                    this.xtag.mouseMoveFn = null;
-                    bcr = this.getBoundingClientRect();
-                    this.canvas.width = bcr.width;
-                    this.canvas.height = bcr.height;
-                    this.ctx.lineCap = "round";
+            this.innerHTML = '<canvas class="x-painting-canvas"></canvas>';
+            this.xtag.mouseMoveFn = null;
+            bcr = this.getBoundingClientRect();
+            this.canvas.width = bcr.width;
+            this.canvas.height = bcr.height;
+            this.ctx.lineCap = "round";
         },
         onInsert: function(){ },
         events:{
